@@ -12,7 +12,7 @@ const HookEvents = [
 
 const PLUGIN_CONFIG_ROOT_PATH = 'service.custom.swaggerApi';
 
-export default class ServerlessPlugin {
+class ServerlessPlugin {
   hooks: Record<string, Function>;
 
   constructor (private serverless: Serverless, public options) {
@@ -25,12 +25,19 @@ export default class ServerlessPlugin {
   addRoutes () {
     const swaggerFile = get(this.serverless, PLUGIN_CONFIG_ROOT_PATH + '.swagger');
     if (!swaggerFile) {
-      throw new Error('No swagger file found! Add swagger file to `custom.swaggerApi.swagger`');
+      this.serverless.cli.log('WARNING: No swagger file found! Add swagger file to `custom.swaggerApi.swagger`');
+      return;
     }
     const handlerEvents = mapSwaggerFileToFunctionEvents(swaggerFile);
 
     Object.keys(handlerEvents).forEach(lambdaName => {
-      (this.serverless.service as any).functions[lambdaName].events = handlerEvents[lambdaName];
+      try {
+        (this.serverless.service as any).functions[lambdaName].events = handlerEvents[lambdaName];
+      } catch (e) {
+        this.serverless.cli.log(`WARNING: No such lambda: '${lambdaName}'`);
+      }
     });
   }
 }
+
+export = ServerlessPlugin;

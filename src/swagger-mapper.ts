@@ -42,10 +42,12 @@ export interface SwaggerPath {
   };
 }
 
-export const mapSwaggerFileToFunctionEvents = (swagger: SwaggerFile): Record<string, HandlerEvent[]> => {
+export const mapSwaggerFileToFunctionEvents = (swagger: SwaggerFile, log = console.log): Record<string, HandlerEvent[]> => {
   const paths = swagger.paths;
   if (!paths) {
-    throw new Error('Swaggerfile is missing property: `paths`');
+    log('WARNING: Swaggerfile is missing property: `paths`');
+
+    return {};
   }
 
   return Object.keys(paths).reduce((handlers, path) => {
@@ -56,9 +58,13 @@ export const mapSwaggerFileToFunctionEvents = (swagger: SwaggerFile): Record<str
       const serverless = route[PLUGIN_CONFIG_ATTRIBUTE_KEY];
       // if has serverless definition, let's add the events
       if (serverless) {
+        if (!serverless.functionName) {
+          return log(`Warning: Missing functionName: '[${method}]: ${path}'`);
+        }
         if (!handlers[serverless.functionName]) {
           handlers[serverless.functionName] = [];
         }
+
         handlers[serverless.functionName].push({
           http: {
             method,
