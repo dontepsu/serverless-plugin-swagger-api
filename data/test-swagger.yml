@@ -1,0 +1,144 @@
+swagger: "2.0"
+schemes:
+- "https"
+info:
+  description: "Serverless Plugin Swagger API test yml"
+  version: "1.0.0"
+  title: "Serverless Plugin Swagger API"
+paths:
+  /hello:
+    get:
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: HelloLambda
+  /hello/{name}:
+    get:
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: HelloLambda
+      parameters:
+        - in: path
+          name: name 
+          required: true
+          description: Name
+          type: string
+  /rest/cars:
+    get:
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+    post:
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+  /rest/cars/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id 
+          required: true
+          description: Car id
+          type: string
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+    put:
+      parameters:
+        - in: path
+          name: id 
+          required: true
+          description: Car id
+          type: string
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+    delete:
+      parameters:
+        - in: path
+          name: id 
+          required: true
+          description: Car id
+          type: string
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+    patch:
+      parameters:
+        - in: path
+          name: id 
+          required: true
+          description: Car id
+          type: string
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-attr-serverless:
+        functionName: RestLambda
+        cors: true
+        authorizer:
+          arn: 'arn:to-resource'
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"
