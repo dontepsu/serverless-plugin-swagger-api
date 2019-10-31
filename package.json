@@ -1,17 +1,18 @@
 {
   "name": "serverless-plugin-swagger-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Define your API Endpoints in OpenAPI format (swagger) and create APIGW integration automatically",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "prepare": "npm run build",
+    "prepare": "npm run clean && npm run build",
     "clean": "rm -rf ./lib",
     "test": "jest",
     "test:tdd": "jest --watch",
     "lint": "tslint --project .",
-    "prepublish": "npm run build"  },
+    "prepublish": "npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dontepsu/serverless-plugin-swagger-api.git"
