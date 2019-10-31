@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-swagger-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Define your API Endpoints in OpenAPI format (swagger) and create APIGW integration automatically",
   "main": "index.js",
   "scripts": {
