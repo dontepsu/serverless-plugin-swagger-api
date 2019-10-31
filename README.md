@@ -7,7 +7,7 @@ Create severless function events from `swagger` definition.
 ## Usage:
 ### serverless.yml
 
-1. Add Swagge file to custom.swaggerApi.swagger
+Add Swagge file to custom.swaggerApi.swagger
 
 ```yaml
 custom:
@@ -19,7 +19,9 @@ functions:
     handler: src/example.js
 ```
 
-2. Add `x-attr-serverless` to your swagger path definition
+### swagger.yml
+
+Add `x-attr-serverless` to your swagger path definition
 
 ```yaml
 swagger: "2.0"
