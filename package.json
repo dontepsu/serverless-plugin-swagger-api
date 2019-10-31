@@ -1,12 +1,12 @@
 {
   "name": "serverless-plugin-swagger-api",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Define your API Endpoints in OpenAPI format (swagger) and create APIGW integration automatically",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "prepare": "npm run clean",
+    "prepare": "npm run clean && npm run build",
     "clean": "rm -rf ./lib",
     "test": "jest",
     "test:tdd": "jest --watch",
