@@ -25,11 +25,17 @@ export interface BaseEventConfig {
   };
 }
 
+export type SecurityDefinition = {
+  'x-attr-arn'?: string;
+  'x-attr-name'?: string;
+};
 export interface SwaggerFile {
   paths: Record<string, Record<HTTPMethod, SwaggerPath>>;
+  securityDefinitions: Record<string, SecurityDefinition>;
 }
 
 export interface SwaggerPath {
+  security?: Record<string, any>[];
   produces: string[];
   responses: Record<number, {
     description: string;
@@ -44,6 +50,21 @@ export interface SwaggerPath {
 
 export const mapSwaggerFileToFunctionEvents = (swagger: SwaggerFile, log = console.log): Record<string, HandlerEvent[]> => {
   const paths = swagger.paths;
+  const securityDefinitions = swagger.securityDefinitions || {};
+
+  const getSecurityDefinition = (name: string): any => {
+    const def = securityDefinitions[name] || {};
+    if (def['x-attr-name']) {
+      return {
+        name: def['x-attr-name'],
+      };
+    } else if (def['x-attr-arn']) {
+      return {
+        arn: def['x-attr-arn'],
+      };
+    }
+  };
+
   if (!paths) {
     log('WARNING: Swaggerfile is missing property: `paths`');
 
@@ -65,10 +86,23 @@ export const mapSwaggerFileToFunctionEvents = (swagger: SwaggerFile, log = conso
           handlers[serverless.functionName] = [];
         }
 
+        const params = {} as any;
+
+        if (Array.isArray(route.security) && route.security[0]) {
+          for (let key in route.security[0]) {
+            const def = getSecurityDefinition(key);
+            if (def) {
+              params.authorizer = def;
+              break;
+            }
+          }
+        }
+
         handlers[serverless.functionName].push({
           http: {
             method,
             path,
+            ...params,
             ...omit(serverless, 'functionName'),
           },
         });

@@ -5,6 +5,13 @@ info:
   description: "Serverless Plugin Swagger API test yml"
   version: "1.0.0"
   title: "Serverless Plugin Swagger API"
+securityDefinitions:
+  ArnAuthorizer:
+    # you would have here other definitions....
+    x-attr-arn: arn:to::authorizer
+  NameAuthorizer:
+    # you would have here other definitions....
+    x-attr-name: authorizer
 paths:
   /hello:
     get:
@@ -43,11 +50,11 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+      security: 
+        - ArnAuthorizer: []
       x-attr-serverless:
         functionName: RestLambda
         cors: true
-        authorizer:
-          arn: 'arn:to-resource'
     post:
       produces:
       - "application/json"
@@ -56,11 +63,11 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+      security: 
+        - NameAuthorizer: []
       x-attr-serverless:
         functionName: RestLambda
         cors: true
-        authorizer:
-          arn: 'arn:to-resource'
   /rest/cars/{id}:
     get:
       parameters:

@@ -32,7 +32,7 @@ test('should map swagger to serverless events', () => {
         method: 'get',
         cors: true,
         authorizer: {
-          arn: 'arn:to-resource',
+          arn: 'arn:to::authorizer',
         },
       },
     },
@@ -42,7 +42,7 @@ test('should map swagger to serverless events', () => {
         method: 'post',
         cors: true,
         authorizer: {
-          arn: 'arn:to-resource',
+          name: 'authorizer',
         },
       },
     },
